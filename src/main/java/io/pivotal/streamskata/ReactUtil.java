@@ -3,7 +3,6 @@ package io.pivotal.streamskata;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class ReactUtil {
