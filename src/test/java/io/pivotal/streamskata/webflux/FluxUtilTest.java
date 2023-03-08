@@ -1,22 +1,22 @@
-package io.pivotal.streamskata;
+package io.pivotal.streamskata.webflux;
 
+import io.pivotal.streamskata.Person;
+import io.pivotal.streamskata.collection.Util;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.util.IntSummaryStatistics;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ReactUtilTest {
+class FluxUtilTest {
 
     @Test
     void shouldMapStringsToUpperCase() {
-        Flux<String> result = ReactUtil.mapToUppercase("This", "is", "java", "8");
+        Flux<String> result = FluxUtil.mapToUppercase("This", "is", "java", "8");
         StepVerifier.create(result)
             .consumeNextWith(v -> assertThat(v).isEqualTo("THIS"))
             .consumeNextWith(v -> assertThat(v).isEqualTo("IS"))
@@ -28,7 +28,7 @@ class ReactUtilTest {
 
     @Test
     void shouldRemoveElementsWithMoreThanThreeCharacters() {
-        Flux<String> result = ReactUtil.removeElementsWithMoreThanFourCharacters("This", "is", "java", "8");
+        Flux<String> result = FluxUtil.removeElementsWithMoreThanFourCharacters("This", "is", "java", "8");
         StepVerifier.create(result)
             .consumeNextWith(v -> assertThat(v).isEqualTo("is"))
             .consumeNextWith(v -> assertThat(v).isEqualTo("8"))
@@ -38,7 +38,7 @@ class ReactUtilTest {
 
     @Test
     void shouldSortStrings() {
-        Flux<String> result = ReactUtil.sortStrings("C", "F", "A", "D", "B", "E");
+        Flux<String> result = FluxUtil.sortStrings("C", "F", "A", "D", "B", "E");
         StepVerifier.create(result)
             .consumeNextWith(v -> assertThat(v).isEqualTo("A"))
             .consumeNextWith(v -> assertThat(v).isEqualTo("B"))
@@ -52,7 +52,7 @@ class ReactUtilTest {
 
     @Test
     void shouldSortIntegers() {
-        Flux<Integer> result = ReactUtil.sortIntegers("2", "4", "12", "3");
+        Flux<Integer> result = FluxUtil.sortIntegers("2", "4", "12", "3");
         StepVerifier.create(result)
             .consumeNextWith(v -> assertThat(v).isEqualTo(2))
             .consumeNextWith(v -> assertThat(v).isEqualTo(3))
@@ -64,7 +64,7 @@ class ReactUtilTest {
 
     @Test
     void shouldSortIntegersInDescendingOrder() {
-        Flux<Integer> result = ReactUtil.sortIntegersDescending("2", "4", "12", "3");
+        Flux<Integer> result = FluxUtil.sortIntegersDescending("2", "4", "12", "3");
         StepVerifier.create(result)
             .consumeNextWith(v -> assertThat(v).isEqualTo(12))
             .consumeNextWith(v -> assertThat(v).isEqualTo(4))
@@ -76,7 +76,7 @@ class ReactUtilTest {
 
     @Test
     void shouldSumIntegersInCollection() {
-        Mono<Integer> result = ReactUtil.sum(1, 2, 3, 4, 5);
+        Mono<Integer> result = FluxUtil.sum(1, 2, 3, 4, 5);
         StepVerifier.create(result)
             .consumeNextWith(v -> assertThat(v).isEqualTo(1 + 2 + 3 + 4 + 5))
             .expectComplete()
@@ -90,7 +90,7 @@ class ReactUtilTest {
             new Person("Fred"),
             new Person("John"));
 
-        Mono<String> result = ReactUtil.separateNamesByComma(input);
+        Mono<String> result = FluxUtil.separateNamesByComma(input);
         StepVerifier.create(result)
             .assertNext(r -> assertThat(r).isEqualTo("Names: Duke, Fred, John."))
             .expectComplete()
@@ -104,7 +104,7 @@ class ReactUtilTest {
             new Person("Fred", 28),
             new Person("John", 45));
 
-        Mono<String> result = ReactUtil.findNameOfOldestPerson(input);
+        Mono<String> result = FluxUtil.findNameOfOldestPerson(input);
         StepVerifier.create(result)
             .assertNext(r -> assertThat(r).isEqualTo("John"))
             .expectComplete()

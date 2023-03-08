@@ -1,11 +1,12 @@
-package io.pivotal.streamskata;
+package io.pivotal.streamskata.webflux;
 
+import io.pivotal.streamskata.Person;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-public class ReactUtil {
+public class FluxUtil {
     public static Flux<String> mapToUppercase(String...inputs) {
         throw new RuntimeException();
     }

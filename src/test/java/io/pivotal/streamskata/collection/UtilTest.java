@@ -1,5 +1,7 @@
-package io.pivotal.streamskata;
+package io.pivotal.streamskata.collection;
 
+import io.pivotal.streamskata.Person;
+import io.pivotal.streamskata.collection.Util;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -57,8 +59,8 @@ class UtilTest {
     @Test
     void shouldFlattenCollectionToSingleCollection() {
         List<List<String>> input = asList(
-                asList("Duke", "Fred"),
-                asList("John", "George", "Paal"));
+            asList("Duke", "Fred"),
+            asList("John", "George", "Paal"));
 
         List<String> result = Util.flattenToSingleCollection(input);
         assertThat(result).containsExactlyInAnyOrder("Duke", "Fred", "John", "George", "Paal");
@@ -67,9 +69,9 @@ class UtilTest {
     @Test
     void shouldSeparateNamesByComma() {
         List<Person> input = asList(
-                new Person("Duke"),
-                new Person("Fred"),
-                new Person("John"));
+            new Person("Duke"),
+            new Person("Fred"),
+            new Person("John"));
 
         String result = Util.separateNamesByComma(input);
         assertThat(result).isEqualTo("Names: Duke, Fred, John.");
@@ -78,9 +80,9 @@ class UtilTest {
     @Test
     void shouldFindNameOfOldestPerson() {
         List<Person> input = asList(
-                new Person("Duke", 10),
-                new Person("Fred", 28),
-                new Person("John", 45));
+            new Person("Duke", 10),
+            new Person("Fred", 28),
+            new Person("John", 45));
 
         String result = Util.findNameOfOldestPerson(input);
         assertThat(result).isEqualTo("John");
@@ -89,10 +91,10 @@ class UtilTest {
     @Test
     void shouldFilterPeopleLessThan18YearsOld() {
         List<Person> input = asList(
-                new Person("Duke", 10),
-                new Person("Fred", 28),
-                new Person("John", 45),
-                new Person("Marius", 17));
+            new Person("Duke", 10),
+            new Person("Fred", 28),
+            new Person("John", 45),
+            new Person("Marius", 17));
 
         List<String> result = Util.filterPeopleLessThan18YearsOld(input);
         assertThat(result).containsExactlyInAnyOrder("Duke", "Marius");
@@ -101,9 +103,9 @@ class UtilTest {
     @Test
     void shouldRetrieveSummaryStatisticsForAge() {
         List<Person> input = asList(
-                new Person("Duke", 10),
-                new Person("Fred", 28),
-                new Person("John", 45));
+            new Person("Duke", 10),
+            new Person("Fred", 28),
+            new Person("John", 45));
 
         IntSummaryStatistics summaryStatistics = Util.getSummaryStatisticsForAge(input);
 
