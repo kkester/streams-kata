@@ -1,4 +1,6 @@
-package io.pivotal.streamskata;
+package io.pivotal.streamskata.collection;
+
+import io.pivotal.streamskata.Person;
 
 import java.util.Comparator;
 import java.util.IntSummaryStatistics;

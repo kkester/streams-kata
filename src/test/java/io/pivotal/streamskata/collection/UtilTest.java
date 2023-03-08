@@ -1,5 +1,7 @@
-package io.pivotal.streamskata;
+package io.pivotal.streamskata.collection;
 
+import io.pivotal.streamskata.Person;
+import io.pivotal.streamskata.collection.Util;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

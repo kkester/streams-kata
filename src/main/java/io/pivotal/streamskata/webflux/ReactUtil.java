@@ -1,5 +1,6 @@
-package io.pivotal.streamskata;
+package io.pivotal.streamskata.webflux;
 
+import io.pivotal.streamskata.Person;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

@@ -1,18 +1,18 @@
-package io.pivotal.streamskata;
+package io.pivotal.streamskata.webflux;
 
+import io.pivotal.streamskata.Person;
+import io.pivotal.streamskata.collection.Util;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.util.IntSummaryStatistics;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ReactUtilTest {
+class FluxUtilTest {
 
     @Test
     void shouldMapStringsToUpperCase() {
