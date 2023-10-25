@@ -7,12 +7,17 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FluxUtilTest {
+
+    public static final Duration ONE_MILLIS = Duration.ofMillis(1);
 
     @Test
     void shouldMapStringsToUpperCase() {
@@ -123,4 +128,33 @@ class FluxUtilTest {
         assertThat(result).containsExactlyInAnyOrder("Duke", "Marius");
     }
 
+    @Test
+    void shouldCreateAndSaveToken() {
+        Mono<String> result = ReactUtil.generateAndSaveToken();
+        StepVerifier.create(result)
+            .assertNext(r -> assertThat(r).isEqualTo(ReactUtil.tokens.get(0)))
+            .expectComplete()
+            .verify();
+    }
+
+    @Test
+    void shouldAddYoungestAndOldestToResultsOnSubscribe() throws Exception {
+        List<Person> input = asList(
+            new Person("Duke", 10),
+            new Person("Fred", 28),
+            new Person("John", 45),
+            new Person("Marius", 17));
+        Map<String, String> results = new HashMap<>();
+        ReactUtil.addResultsTo(input, results);
+        awaitResults(results, Duration.ofMillis(100));
+    }
+
+    private void awaitResults(Map<String, String> results, Duration duration) throws Exception {
+        if (results.size() != 2) {
+            ONE_MILLIS.wait(1);
+            awaitResults(results, duration.minusMillis(1));
+        }
+        assertThat(results).containsEntry("oldest", "John");
+        assertThat(results).containsEntry("youngest", "Duke");
+    }
 }
