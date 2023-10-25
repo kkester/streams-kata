@@ -65,7 +65,7 @@ public class WebfluxUtil {
         });
     }
 
-    public static void addResultsTo(List<Person> people, Map<String, String> results) {
+    public static void addYoungestAndOldestToResults(List<Person> people, Map<String, String> results) {
 
     }
 }

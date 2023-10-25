@@ -145,7 +145,7 @@ class WebfluxUtilTest {
             new Person("John", 45),
             new Person("Marius", 17));
         Map<String, String> results = new HashMap<>();
-        WebfluxUtil.addResultsTo(input, results);
+        WebfluxUtil.addYoungestAndOldestToResults(input, results);
         awaitResults(results, Duration.ofMillis(100));
     }
 
@@ -156,13 +156,5 @@ class WebfluxUtilTest {
         }
         assertThat(results).containsEntry("oldest", "John");
         assertThat(results).containsEntry("youngest", "Duke");
-    }
-
-    private void sleep() {
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
