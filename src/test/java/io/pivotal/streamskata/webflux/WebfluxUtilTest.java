@@ -15,13 +15,13 @@ import java.util.Map;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class FluxUtilTest {
+class WebfluxUtilTest {
 
     public static final Duration ONE_MILLIS = Duration.ofMillis(1);
 
     @Test
     void shouldMapStringsToUpperCase() {
-        Flux<String> result = ReactUtil.mapToUppercase("This", "is", "java", "8");
+        Flux<String> result = WebfluxUtil.mapToUppercase("This", "is", "java", "8");
         StepVerifier.create(result)
             .consumeNextWith(v -> assertThat(v).isEqualTo("THIS"))
             .consumeNextWith(v -> assertThat(v).isEqualTo("IS"))
@@ -33,7 +33,7 @@ class FluxUtilTest {
 
     @Test
     void shouldRemoveElementsWithMoreThanThreeCharacters() {
-        Flux<String> result = ReactUtil.removeElementsWithMoreThanFourCharacters("This", "is", "java", "8");
+        Flux<String> result = WebfluxUtil.removeElementsWithMoreThanFourCharacters("This", "is", "java", "8");
         StepVerifier.create(result)
             .consumeNextWith(v -> assertThat(v).isEqualTo("is"))
             .consumeNextWith(v -> assertThat(v).isEqualTo("8"))
@@ -43,7 +43,7 @@ class FluxUtilTest {
 
     @Test
     void shouldSortStrings() {
-        Flux<String> result = ReactUtil.sortStrings("C", "F", "A", "D", "B", "E");
+        Flux<String> result = WebfluxUtil.sortStrings("C", "F", "A", "D", "B", "E");
         StepVerifier.create(result)
             .consumeNextWith(v -> assertThat(v).isEqualTo("A"))
             .consumeNextWith(v -> assertThat(v).isEqualTo("B"))
@@ -57,7 +57,7 @@ class FluxUtilTest {
 
     @Test
     void shouldSortIntegers() {
-        Flux<Integer> result = ReactUtil.sortIntegers("2", "4", "12", "3");
+        Flux<Integer> result = WebfluxUtil.sortIntegers("2", "4", "12", "3");
         StepVerifier.create(result)
             .consumeNextWith(v -> assertThat(v).isEqualTo(2))
             .consumeNextWith(v -> assertThat(v).isEqualTo(3))
@@ -69,7 +69,7 @@ class FluxUtilTest {
 
     @Test
     void shouldSortIntegersInDescendingOrder() {
-        Flux<Integer> result = ReactUtil.sortIntegersDescending("2", "4", "12", "3");
+        Flux<Integer> result = WebfluxUtil.sortIntegersDescending("2", "4", "12", "3");
         StepVerifier.create(result)
             .consumeNextWith(v -> assertThat(v).isEqualTo(12))
             .consumeNextWith(v -> assertThat(v).isEqualTo(4))
@@ -81,7 +81,7 @@ class FluxUtilTest {
 
     @Test
     void shouldSumIntegersInCollection() {
-        Mono<Integer> result = ReactUtil.sum(1, 2, 3, 4, 5);
+        Mono<Integer> result = WebfluxUtil.sum(1, 2, 3, 4, 5);
         StepVerifier.create(result)
             .consumeNextWith(v -> assertThat(v).isEqualTo(1 + 2 + 3 + 4 + 5))
             .expectComplete()
@@ -95,7 +95,7 @@ class FluxUtilTest {
             new Person("Fred"),
             new Person("John"));
 
-        Mono<String> result = ReactUtil.separateNamesByComma(input);
+        Mono<String> result = WebfluxUtil.separateNamesByComma(input);
         StepVerifier.create(result)
             .assertNext(r -> assertThat(r).isEqualTo("Names: Duke, Fred, John."))
             .expectComplete()
@@ -109,7 +109,7 @@ class FluxUtilTest {
             new Person("Fred", 28),
             new Person("John", 45));
 
-        Mono<String> result = ReactUtil.findNameOfOldestPerson(input);
+        Mono<String> result = WebfluxUtil.findNameOfOldestPerson(input);
         StepVerifier.create(result)
             .assertNext(r -> assertThat(r).isEqualTo("John"))
             .expectComplete()
@@ -130,9 +130,9 @@ class FluxUtilTest {
 
     @Test
     void shouldCreateAndSaveToken() {
-        Mono<String> result = ReactUtil.generateAndSaveToken();
+        Mono<String> result = WebfluxUtil.generateAndSaveToken();
         StepVerifier.create(result)
-            .assertNext(r -> assertThat(r).isEqualTo(ReactUtil.tokens.get(0)))
+            .assertNext(r -> assertThat(r).isEqualTo(WebfluxUtil.tokens.get(0)))
             .expectComplete()
             .verify();
     }
@@ -145,13 +145,13 @@ class FluxUtilTest {
             new Person("John", 45),
             new Person("Marius", 17));
         Map<String, String> results = new HashMap<>();
-        ReactUtil.addResultsTo(input, results);
+        WebfluxUtil.addResultsTo(input, results);
         awaitResults(results, Duration.ofMillis(100));
     }
 
     private void awaitResults(Map<String, String> results, Duration duration) throws Exception {
         if (results.size() != 2) {
-            ONE_MILLIS.wait(1);
+            Mono.delay(Duration.ZERO).block();
             awaitResults(results, duration.minusMillis(1));
         }
         assertThat(results).containsEntry("oldest", "John");

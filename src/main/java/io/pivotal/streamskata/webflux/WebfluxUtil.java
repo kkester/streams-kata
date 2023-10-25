@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 import java.util.*;
 
 @Slf4j
-public class ReactUtil {
+public class WebfluxUtil {
 
     static final List<String> tokens = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class ReactUtil {
 
     public static Mono<String> generateAndSaveToken() {
         log.info("Generating Token");
-        return createToken().delayUntil(ReactUtil::saveToken);
+        return createToken().delayUntil(WebfluxUtil::saveToken);
     }
 
     private static Mono<String> createToken() {
