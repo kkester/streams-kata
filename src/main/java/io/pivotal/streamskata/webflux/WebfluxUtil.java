@@ -5,7 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 public class WebfluxUtil {
@@ -85,15 +88,15 @@ public class WebfluxUtil {
         });
     }
 
-    public static void addYoungestAndOldestToResults(List<Person> people, Map<String, String> results) {
+    public static void addYoungestAndOldestToResults(List<Person> people, List<String> results) {
         Mono<String> oldestFlux = Flux.fromIterable(people)
             .reduce((a, b) -> a.getAge() > b.getAge() ? a : b)
             .map(Person::getName)
-            .doOnNext(name -> results.put("oldest", name));
+            .doOnNext(results::add);
         Mono<String> youngestFlux = Flux.fromIterable(people)
             .reduce((a, b) -> a.getAge() < b.getAge() ? a : b)
             .map(Person::getName)
-            .doOnNext(name -> results.put("youngest", name));
+            .doOnNext(results::add);
         Flux.concat(oldestFlux, youngestFlux)
             .subscribe();
     }

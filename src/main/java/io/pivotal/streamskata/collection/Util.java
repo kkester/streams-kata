@@ -17,33 +17,33 @@ public class Util {
     public static List<String> mapToUppercase(List<String> input) {
         return input.stream()
             .map(String::toUpperCase)
-            .collect(toList());
+            .toList();
     }
 
     public static List<String> removeElementsWithMoreThanFourCharacters(List<String> input) {
         return input.stream()
             .filter(s -> s.length() < 4)
-            .collect(toList());
+            .toList();
     }
 
     public static List<String> sortStrings(List<String> input) {
         return input.stream()
             .sorted(Comparator.naturalOrder())
-            .collect(toList());
+            .toList();
     }
 
     public static List<Integer> sortIntegers(List<String> input) {
         return input.stream()
             .map(Integer::valueOf)
             .sorted()
-            .collect(toList());
+            .toList();
     }
 
     public static List<Integer> sortIntegersDescending(List<String> input) {
         return input.stream()
             .map(Integer::valueOf)
             .sorted(Comparator.<Integer>reverseOrder())
-            .collect(toList());
+            .toList();
     }
 
     public static Integer sum(List<Integer> numbers) {
@@ -66,7 +66,7 @@ public class Util {
 
     public static String findNameOfOldestPerson(List<Person> input) {
         return input.stream()
-            .max(Comparator.comparingInt(i -> i.getAge()))
+            .max(Comparator.comparingInt(Person::getAge))
             .map(Person::getName)
             .orElse(null);
     }
@@ -89,7 +89,7 @@ public class Util {
             .collect(toMap(
                 p -> p.getAge() > 18,
                 List::of,
-                (n,c) -> Stream.concat(n.stream(),c.stream()).collect(toList())
+                (n,c) -> Stream.concat(n.stream(),c.stream()).toList()
             ));
     }
 
