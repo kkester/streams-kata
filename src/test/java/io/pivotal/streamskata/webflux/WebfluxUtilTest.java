@@ -151,8 +151,8 @@ class WebfluxUtilTest {
     }
 
     private void awaitResults(List<String> results, Duration duration) throws Exception {
-        if (results.size() != 2) {
-            Mono.delay(Duration.ZERO).block();
+        if (results.size() != 2 && !duration.isZero()) {
+            Mono.delay(Duration.ofMillis(1)).block();
             awaitResults(results, duration.minusMillis(1));
         }
         assertThat(results).containsExactlyInAnyOrder("Duke", "John");
