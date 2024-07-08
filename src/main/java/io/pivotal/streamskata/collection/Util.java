@@ -7,7 +7,6 @@ import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.*;
@@ -15,33 +14,33 @@ import static java.util.stream.Collectors.groupingBy;
 
 public class Util {
 
-    public static List<String> mapToUppercase(List<String> strings) {
-        return strings.stream()
+    public static List<String> mapToUppercase(List<String> input) {
+        return input.stream()
             .map(String::toUpperCase)
             .collect(toList());
     }
 
-    public static List<String> removeElementsWithMoreThanFourCharacters(List<String> collection) {
-        return collection.stream()
+    public static List<String> removeElementsWithMoreThanFourCharacters(List<String> input) {
+        return input.stream()
             .filter(s -> s.length() < 4)
             .collect(toList());
     }
 
-    public static List<String> sortStrings(List<String> values) {
-        return values.stream()
+    public static List<String> sortStrings(List<String> input) {
+        return input.stream()
             .sorted(Comparator.naturalOrder())
             .collect(toList());
     }
 
-    public static List<Integer> sortIntegers(List<String> values) {
-        return values.stream()
+    public static List<Integer> sortIntegers(List<String> input) {
+        return input.stream()
             .map(Integer::valueOf)
             .sorted()
             .collect(toList());
     }
 
-    public static List<Integer> sortIntegersDescending(List<String> values) {
-        return values.stream()
+    public static List<Integer> sortIntegersDescending(List<String> input) {
+        return input.stream()
             .map(Integer::valueOf)
             .sorted(Comparator.<Integer>reverseOrder())
             .collect(toList());
@@ -53,41 +52,40 @@ public class Util {
             .sum();
     }
 
-    public static List<String> flattenToSingleCollection(List<List<String>> collection) {
-        return collection.stream()
+    public static List<String> flattenToSingleCollection(List<List<String>> input) {
+        return input.stream()
             .flatMap(List::stream)
             .toList();
     }
 
-    public static String separateNamesByComma(List<Person> collection) {
-        return collection.stream()
+    public static String separateNamesByComma(List<Person> input) {
+        return input.stream()
             .map(Person::getName)
             .collect(joining(", ", "Names: ", "."));
     }
 
-    public static String findNameOfOldestPerson(List<Person> collection) {
-        return collection.stream()
+    public static String findNameOfOldestPerson(List<Person> input) {
+        return input.stream()
             .max(Comparator.comparingInt(i -> i.getAge()))
             .map(Person::getName)
             .orElse(null);
     }
 
-    public static List<String> filterPeopleLessThan18YearsOld(List<Person> collection) {
+    public static List<String> filterPeopleLessThan18YearsOld(List<Person> input) {
         Function<Person,String> nameFunction = Person::getName;
-        return collection.stream()
+        return input.stream()
             .filter(p -> p.getAge() < 18)
             .map(nameFunction)
             .toList();
     }
 
-    public static IntSummaryStatistics getSummaryStatisticsForAge(List<Person> collection) {
-        return collection.stream()
-//            .map(Person::getAge)
+    public static IntSummaryStatistics getSummaryStatisticsForAge(List<Person> input) {
+        return input.stream()
             .collect(summarizingInt(Person::getAge));
     }
 
-    public static Map<Boolean, List<Person>> partitionAdults(List<Person> collection) {
-        return collection.stream()
+    public static Map<Boolean, List<Person>> partitionAdults(List<Person> input) {
+        return input.stream()
             .collect(toMap(
                 p -> p.getAge() > 18,
                 List::of,
@@ -95,8 +93,8 @@ public class Util {
             ));
     }
 
-    public static Map<String, List<Person>> partitionByNationality(List<Person> collection) {
-        return collection.stream()
+    public static Map<String, List<Person>> partitionByNationality(List<Person> input) {
+        return input.stream()
             .collect(groupingBy(Person::getCountry));
     }
 

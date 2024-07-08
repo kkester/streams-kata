@@ -57,6 +57,12 @@ public class WebfluxUtil {
             .map(Person::getName);
     }
 
+    public static Flux<String> filterPeopleLessThan18YearsOld(List<Person> input) {
+        return Flux.fromIterable(input)
+            .filter(person -> person.getAge() < 18)
+            .map(Person::getName);
+    }
+
     public static Mono<String> generateAndSaveToken() {
         log.info("Generating Token");
         return createToken().delayUntil(WebfluxUtil::saveToken);
@@ -79,7 +85,7 @@ public class WebfluxUtil {
         });
     }
 
-    public static void addResultsTo(List<Person> people, Map<String, String> results) {
+    public static void addYoungestAndOldestToResults(List<Person> people, Map<String, String> results) {
         Mono<String> oldestFlux = Flux.fromIterable(people)
             .reduce((a, b) -> a.getAge() > b.getAge() ? a : b)
             .map(Person::getName)

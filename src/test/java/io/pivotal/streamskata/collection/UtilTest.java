@@ -1,7 +1,6 @@
 package io.pivotal.streamskata.collection;
 
 import io.pivotal.streamskata.Person;
-import io.pivotal.streamskata.collection.Util;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -25,7 +24,7 @@ class UtilTest {
     void shouldRemoveElementsWithMoreThanThreeCharacters() {
         List<String> input = asList("This", "is", "java", "8");
         List<String> result = Util.removeElementsWithMoreThanFourCharacters(input);
-        assertThat(result).contains("is", "8");
+        assertThat(result).containsExactly("is", "8");
     }
 
     @Test
@@ -109,6 +108,7 @@ class UtilTest {
 
         IntSummaryStatistics summaryStatistics = Util.getSummaryStatisticsForAge(input);
 
+        assertThat(summaryStatistics).isNotNull();
         assertThat(summaryStatistics.getAverage()).isEqualTo((double) (10 + 28 + 45) / 3);
         assertThat(summaryStatistics.getSum()).isEqualTo((long) 10 + 28 + 45);
         assertThat(summaryStatistics.getMin()).isEqualTo(10);

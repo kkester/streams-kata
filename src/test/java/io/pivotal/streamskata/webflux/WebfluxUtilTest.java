@@ -1,7 +1,6 @@
 package io.pivotal.streamskata.webflux;
 
 import io.pivotal.streamskata.Person;
-import io.pivotal.streamskata.collection.Util;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -16,9 +15,7 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class WebfluxUtilTest {
-
-    public static final Duration ONE_MILLIS = Duration.ofMillis(1);
-
+    
     @Test
     void shouldMapStringsToUpperCase() {
         Flux<String> result = WebfluxUtil.mapToUppercase("This", "is", "java", "8");
@@ -106,8 +103,8 @@ class WebfluxUtilTest {
     void shouldFindNameOfOldestPerson() {
         List<Person> input = asList(
             new Person("Duke", 10),
-            new Person("Fred", 28),
-            new Person("John", 45));
+            new Person("John", 45),
+            new Person("Fred", 28));
 
         Mono<String> result = WebfluxUtil.findNameOfOldestPerson(input);
         StepVerifier.create(result)
@@ -122,10 +119,15 @@ class WebfluxUtilTest {
             new Person("Duke", 10),
             new Person("Fred", 28),
             new Person("John", 45),
+            new Person("Barry", 18),
             new Person("Marius", 17));
 
-        List<String> result = Util.filterPeopleLessThan18YearsOld(input);
-        assertThat(result).containsExactlyInAnyOrder("Duke", "Marius");
+        Flux<String> result = WebfluxUtil.filterPeopleLessThan18YearsOld(input);
+        StepVerifier.create(result)
+            .assertNext(r -> assertThat(r).isEqualTo("Duke"))
+            .assertNext(r -> assertThat(r).isEqualTo("Marius"))
+            .expectComplete()
+            .verify();
     }
 
     @Test
@@ -145,7 +147,7 @@ class WebfluxUtilTest {
             new Person("John", 45),
             new Person("Marius", 17));
         Map<String, String> results = new HashMap<>();
-        WebfluxUtil.addResultsTo(input, results);
+        WebfluxUtil.addYoungestAndOldestToResults(input, results);
         awaitResults(results, Duration.ofMillis(100));
     }
 
