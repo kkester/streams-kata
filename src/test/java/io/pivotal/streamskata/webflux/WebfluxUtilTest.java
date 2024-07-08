@@ -106,8 +106,8 @@ class WebfluxUtilTest {
     void shouldFindNameOfOldestPerson() {
         List<Person> input = asList(
             new Person("Duke", 10),
-            new Person("Fred", 28),
-            new Person("John", 45));
+            new Person("John", 45),
+            new Person("Fred", 28));
 
         Mono<String> result = WebfluxUtil.findNameOfOldestPerson(input);
         StepVerifier.create(result)
@@ -124,8 +124,12 @@ class WebfluxUtilTest {
             new Person("John", 45),
             new Person("Marius", 17));
 
-        List<String> result = Util.filterPeopleLessThan18YearsOld(input);
-        assertThat(result).containsExactlyInAnyOrder("Duke", "Marius");
+        Flux<String> result = WebfluxUtil.filterPeopleLessThan18YearsOld(input);
+        StepVerifier.create(result)
+            .assertNext(r -> assertThat(r).isEqualTo("Duke"))
+            .assertNext(r -> assertThat(r).isEqualTo("Marius"))
+            .expectComplete()
+            .verify();
     }
 
     @Test

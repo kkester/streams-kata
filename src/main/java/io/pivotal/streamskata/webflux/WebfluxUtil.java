@@ -13,14 +13,14 @@ public class WebfluxUtil {
     static final List<String> tokens = new ArrayList<>();
 
     public static Flux<String> mapToUppercase(String...inputs) {
-        throw new RuntimeException();
+        return Flux.fromArray(inputs);
     }
 
     public static Flux<String> removeElementsWithMoreThanFourCharacters(String...inputs) {
-        throw new RuntimeException();
+        return Flux.fromArray(inputs);
     }
     public static Flux<String> sortStrings(String...inputs) {
-        throw new RuntimeException();
+        return Flux.fromArray(inputs);
     }
 
     public static Flux<Integer> sortIntegers(String...inputs) {
@@ -36,11 +36,24 @@ public class WebfluxUtil {
     }
 
     public static Mono<String> separateNamesByComma(List<Person> people) {
-        throw new RuntimeException();
+        return Flux.fromIterable(people)
+            .map(Person::getName)
+            .last();
     }
 
     public static Mono<String> findNameOfOldestPerson(List<Person> people) {
-        throw new RuntimeException();
+        return Flux.fromIterable(people)
+            .map(Person::getName)
+            .last();
+    }
+
+    public static void addYoungestAndOldestToResults(List<Person> people, Map<String, String> results) {
+
+    }
+
+    public static Flux<String> filterPeopleLessThan18YearsOld(List<Person> people) {
+        return Flux.fromIterable(people)
+            .map(Person::getName);
     }
 
     public static Mono<String> generateAndSaveToken() {
@@ -63,9 +76,5 @@ public class WebfluxUtil {
             tokens.add(token);
             log.info("Done Saving Token");
         });
-    }
-
-    public static void addYoungestAndOldestToResults(List<Person> people, Map<String, String> results) {
-
     }
 }
