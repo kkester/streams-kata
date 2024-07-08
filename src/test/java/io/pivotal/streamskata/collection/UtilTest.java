@@ -93,6 +93,7 @@ class UtilTest {
             new Person("Duke", 10),
             new Person("Fred", 28),
             new Person("John", 45),
+            new Person("Barry", 18),
             new Person("Marius", 17));
 
         List<String> result = Util.filterPeopleLessThan18YearsOld(input);
@@ -109,7 +110,7 @@ class UtilTest {
         IntSummaryStatistics summaryStatistics = Util.getSummaryStatisticsForAge(input);
 
         assertThat(summaryStatistics).isNotNull();
-        assertThat(summaryStatistics.getAverage()).isNotNull().isEqualTo((double) (10 + 28 + 45) / 3);
+        assertThat(summaryStatistics.getAverage()).isEqualTo((double) (10 + 28 + 45) / 3);
         assertThat(summaryStatistics.getSum()).isEqualTo((long) 10 + 28 + 45);
         assertThat(summaryStatistics.getMin()).isEqualTo(10);
         assertThat(summaryStatistics.getMax()).isEqualTo(45);

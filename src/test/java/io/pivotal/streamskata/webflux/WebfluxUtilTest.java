@@ -1,7 +1,6 @@
 package io.pivotal.streamskata.webflux;
 
 import io.pivotal.streamskata.Person;
-import io.pivotal.streamskata.collection.Util;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -16,8 +15,6 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class WebfluxUtilTest {
-
-    public static final Duration ONE_MILLIS = Duration.ofMillis(1);
 
     @Test
     void shouldMapStringsToUpperCase() {
@@ -122,6 +119,7 @@ class WebfluxUtilTest {
             new Person("Duke", 10),
             new Person("Fred", 28),
             new Person("John", 45),
+            new Person("Barry", 18),
             new Person("Marius", 17));
 
         Flux<String> result = WebfluxUtil.filterPeopleLessThan18YearsOld(input);
