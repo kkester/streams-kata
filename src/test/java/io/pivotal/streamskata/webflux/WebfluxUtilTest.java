@@ -7,9 +7,8 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -146,17 +145,16 @@ class WebfluxUtilTest {
             new Person("Fred", 28),
             new Person("John", 45),
             new Person("Marius", 17));
-        Map<String, String> results = new HashMap<>();
+        List<String> results = new ArrayList<>();
         WebfluxUtil.addYoungestAndOldestToResults(input, results);
         awaitResults(results, Duration.ofMillis(100));
     }
 
-    private void awaitResults(Map<String, String> results, Duration duration) throws Exception {
-        if (results.size() != 2 && !duration.isNegative()) {
-            Mono.delay(Duration.ZERO).block();
+    private void awaitResults(List<String> results, Duration duration) throws Exception {
+        if (results.size() != 2 && !duration.isZero()) {
+            Mono.delay(Duration.ofMillis(1)).block();
             awaitResults(results, duration.minusMillis(1));
         }
-        assertThat(results).containsEntry("oldest", "John");
-        assertThat(results).containsEntry("youngest", "Duke");
+        assertThat(results).containsExactlyInAnyOrder("Duke", "John");
     }
 }

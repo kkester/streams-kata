@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 public class WebfluxUtil {
@@ -24,15 +26,15 @@ public class WebfluxUtil {
     }
 
     public static Flux<Integer> sortIntegers(String...inputs) {
-        throw new RuntimeException();
+        return Flux.empty();
     }
 
     public static Flux<Integer> sortIntegersDescending(String...inputs) {
-        throw new RuntimeException();
+        return Flux.empty();
     }
 
     public static Mono<Integer> sum(Integer...inputs) {
-        throw new RuntimeException();
+        return Mono.empty();
     }
 
     public static Mono<String> separateNamesByComma(List<Person> people) {
@@ -47,7 +49,7 @@ public class WebfluxUtil {
             .last();
     }
 
-    public static void addYoungestAndOldestToResults(List<Person> people, Map<String, String> results) {
+    public static void addYoungestAndOldestToResults(List<Person> people, List<String> results) {
 
     }
 
@@ -58,7 +60,7 @@ public class WebfluxUtil {
 
     public static Mono<String> generateAndSaveToken() {
         log.info("Generating Token");
-        throw new RuntimeException();
+        return Mono.empty();
     }
 
     private static Mono<String> createToken() {
